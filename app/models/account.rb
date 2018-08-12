@@ -1,11 +1,14 @@
 class Account < ApplicationRecord
     attr_accessor :father_account
     attr_reader :matrix
-    has_and_belongs_to_many :group_account
-    has_many :account_attr, :through => :group_account
+    has_one :group_account, :dependent => :destroy
+    has_one :account_attr, :through => :group_account
 
     validates :name, :date , presence: true
+    validates :name, uniqueness: { scope: :name, message: "Ja existe no sistema" }
     validate :validate_account
+
+    after_create :create_dependent
 
     private
     def validate_account     
@@ -37,6 +40,14 @@ class Account < ApplicationRecord
         group = GroupAccount.create(account_id: self.id)
         AccountAttr.create(group_account_id: group.id,account_id:@father_account)
        end 
+    end
+    def check_update
+        account = Account.find_by_id(self.id)
+        unless account.nil?
+           if account.account_type_id.to_i != self.account_type_id.to_i
+            errors.add(:account_type_id, " Não é permitido mudar o tipo da conta.")
+           end
+        end
     end
     def destroy_dependences
         group = GroupAccount.find_by_id(self.id)

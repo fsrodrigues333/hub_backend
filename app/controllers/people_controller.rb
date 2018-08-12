@@ -3,9 +3,11 @@ class PeopleController < ApplicationController
     def index
       page_number = params[:page].try(:[], :number)
       per_page    =  params[:page] != nil ? params[:page].try(:[], :size) : 10
-      @people = Person.all.paginate(:page => page_number, :per_page => per_page)
+      @peoples = Person.all.paginate(:page => page_number, :per_page => per_page)
 
-      render json: @people
+      if stale?(@peoples)
+        render json: @peoples
+      end
     end
     def show
       render json: @person
