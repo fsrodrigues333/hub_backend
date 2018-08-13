@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :account_type do
-    code "MyString"
+    code "Matriz"
   end
 end

@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :person_type do
-    code "MyString"
+    code "Pessoa Física"
   end
 end

@@ -4,6 +4,7 @@ class Account < ApplicationRecord
     has_one :group_account, :dependent => :destroy
     has_one :account_attr, :through => :group_account
     belongs_to :account_type
+    belongs_to :person
 
     validates :name, :date , presence: true
     validates :name, uniqueness: { scope: :name, message: "Ja existe no sistema" }

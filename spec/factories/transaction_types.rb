@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :transaction_type do
-    code "MyString"
+    code "Transferências"
   end
 end
