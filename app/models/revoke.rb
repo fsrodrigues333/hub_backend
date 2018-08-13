@@ -1,0 +1,3 @@
+class Revoke < ApplicationRecord
+  
+end

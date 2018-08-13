@@ -9,3 +9,5 @@ PersonType.create(code:"Pessoa Jurídica") if PersonType.find_by_code("Pessoa Ju
 PersonType.create(code:"Pessoa Física") if PersonType.find_by_code("Pessoa Física").nil?
 AccountType.create(code:"Matriz") if AccountType.find_by_code("Matriz").nil?
 AccountType.create(code:"Filial") if AccountType.find_by_code("Filial").nil?
+TransactionType.create(code:"Transferências") if TransactionType.find_by_code("Transferências").nil?
+TransactionType.create(code:"Aporte") if TransactionType.find_by_code("Aporte").nil?

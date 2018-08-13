@@ -3,12 +3,14 @@ class Account < ApplicationRecord
     attr_reader :matrix
     has_one :group_account, :dependent => :destroy
     has_one :account_attr, :through => :group_account
+    belongs_to :account_type
 
     validates :name, :date , presence: true
     validates :name, uniqueness: { scope: :name, message: "Ja existe no sistema" }
     validate :validate_account
 
     after_create :create_dependent
+    before_validation :check_update, on: :update
 
     private
     def validate_account     
@@ -49,18 +51,4 @@ class Account < ApplicationRecord
            end
         end
     end
-    def destroy_dependences
-        group = GroupAccount.find_by_id(self.id)
-        unless group.nil?
-            AccountAttr.where(group_account_id: group.id).each do |attr|
-                attr.destroy
-            end
-            AccountAttr.where(account_id: self.id).each do |attr|
-                attr.destroy
-            end
-            group.destroy
-        end
-    end
-
-    
 end

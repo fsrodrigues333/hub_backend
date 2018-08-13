@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_11_210216) do
+ActiveRecord::Schema.define(version: 2018_08_13_132914) do
 
   create_table "account_attrs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "group_account_id"
@@ -63,10 +63,39 @@ ActiveRecord::Schema.define(version: 2018_08_11_210216) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "revokes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "transaction_id"
+    t.bigint "transaction_eq"
+    t.string "code"
+    t.boolean "check"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transaction_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "account_id"
+    t.bigint "transaction_type_id"
+    t.float "value"
+    t.bigint "account_receive"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "code"
+    t.index ["account_id"], name: "index_transactions_on_account_id"
+    t.index ["transaction_type_id"], name: "index_transactions_on_transaction_type_id"
+  end
+
   add_foreign_key "account_attrs", "accounts"
   add_foreign_key "account_attrs", "group_accounts"
   add_foreign_key "accounts", "account_types"
   add_foreign_key "accounts", "people"
   add_foreign_key "group_accounts", "accounts"
   add_foreign_key "people", "person_types"
+  add_foreign_key "transactions", "accounts"
+  add_foreign_key "transactions", "transaction_types"
 end

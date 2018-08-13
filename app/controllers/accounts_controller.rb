@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-    before_action :set_account, only: [:show]
+    before_action :set_account, only: [:show,:update,:destroy]
     def index
       page_number = params[:page].try(:[], :number)
       per_page    =  params[:page] != nil ? params[:page].try(:[], :size) : 10
